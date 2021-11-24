@@ -325,16 +325,16 @@ public class DBConnection {
         return metodoTamizacion;
     }
 
-    public Usuario getPacienteByTdocAndNdoc(String tdoc, int ndoc) {
+    public Usuario getUsuarioByTdocAndNdoc(String id) {
         MongoDatabase database = mongoClient.getDatabase("cacu");
         MongoCollection<Document> collection = database.getCollection("usuario");
-        Document query = new Document("$and", Arrays.asList(new Document("tdoc",tdoc),new Document("ndoc",ndoc)));
+        Document query = new Document("id",id);
         FindIterable findIterable = collection.find(query);
         ArrayList<Document> documents = new ArrayList<Document>();
         Usuario usuario =null;
         findIterable.into(documents);
         for (Document document: documents) {
-            usuario = new Usuario((String) document.get("idpaciente"), (String) document.get("tdoc"),
+            usuario = new Usuario((String) document.get("id"), (String) document.get("tdoc"),
                     (Integer) document.get("ndoc"), (String) document.get("nombres"), (String) document.get("apellidos"),
                     (Date) document.get("fechaderegistro"), (String) document.get("nacionalidad"), (String) document.get("departamentodeorigen"),
                     (String) document.get("municipiodeorigen"), (String) document.get("paisderesidencia"), (String) document.get("departamentoderesidencia"),

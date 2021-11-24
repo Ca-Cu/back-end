@@ -114,10 +114,10 @@ public class App {
             res.type("application/json");
             return new Gson().toJson(connection.getTipoVacunaVPHByid(Integer.parseInt(req.queryParams("id"))));
         });
-        get("/getPacienteByTdocAndNdoc", (req, res) -> {
+        get("/getUsuarioById", (req, res) -> {
             res.status(200);
             res.type("application/json");
-            return new Gson().toJson(connection.getPacienteByTdocAndNdoc(req.params("tdoc"),Integer.parseInt(req.queryParams("ndoc"))));
+            return new Gson().toJson(connection.getUsuarioByTdocAndNdoc(req.queryParams("id")));
         });
         get("/getMedicoByTdocAndNdoc", (req, res) -> {
             res.status(200);
