@@ -2,21 +2,25 @@ package edu.escuelaing.arep.persistence;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.BsonField;
+import com.mongodb.client.model.Field;
+import com.mongodb.client.model.Filters;
 import edu.escuelaing.arep.model.*;
 
+import org.bson.BsonArray;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 public class DBConnection {
@@ -183,7 +187,6 @@ public class DBConnection {
         MongoDatabase database = mongoClient.getDatabase("cacu");
         MongoCollection<Document> collection =database.getCollection("tipovacunavph");
         Document document=new Document();
-        document.put("id",tipoPrevencionPrimaria.getId());
         document.put("nombre",tipoPrevencionPrimaria.getNombre());
         collection.insertOne(document);
     }
@@ -334,6 +337,7 @@ public class DBConnection {
         Usuario usuario =null;
         findIterable.into(documents);
         for (Document document: documents) {
+            System.out.println(document);
             usuario = new Usuario((String) document.get("id"), (String) document.get("tdoc"),
                     (Integer) document.get("ndoc"), (String) document.get("nombres"), (String) document.get("apellidos"),
                     (Date) document.get("fechaderegistro"), (String) document.get("nacionalidad"), (String) document.get("departamentodeorigen"),
@@ -450,7 +454,7 @@ public class DBConnection {
         ArrayList<TipoVacunaVPH> tiposVacunasVPH = new ArrayList<TipoVacunaVPH>();
         findIterable.into(documents);
         for (Document document: documents) {
-            tiposVacunasVPH.add(new TipoVacunaVPH((Integer) document.get("id"), (String) document.get("nombre")));
+            tiposVacunasVPH.add(new TipoVacunaVPH((Integer) document.get("_id"), (String) document.get("nombre")));
         }
         return tiposVacunasVPH;
     }
@@ -458,28 +462,53 @@ public class DBConnection {
     public TipoVacunaVPH getTipoVacunaVPHByid(int id) {
         MongoDatabase database = mongoClient.getDatabase("cacu");
         MongoCollection<Document> collection = database.getCollection("tipovacunavph");
-        Document query = new Document("id",id);
+        Document query = new Document("_id",id);
         FindIterable findIterable = collection.find(query);
         ArrayList<Document> documents = new ArrayList<Document>();
         TipoVacunaVPH tipoVacunaVPH = null;
         findIterable.into(documents);
         for (Document document: documents) {
-            tipoVacunaVPH= new TipoVacunaVPH((Integer) document.get("id"), (String) document.get("nombre"));
+            tipoVacunaVPH= new TipoVacunaVPH((Integer) document.get("_id"), (String) document.get("nombre"));
         }
         return tipoVacunaVPH;
     }
 
-    public void putPaciente(int IdPaciente,String PaisDeResidencia, String DepartamentoDeResidencia, String MunicipioDeResidencia, String EstadoCivil, String NivelEducativo, String RegimenDeSalud, String Eps) {
+    public void putPaciente(Usuario usuario) {
+        System.out.println("sss");
         MongoDatabase database = mongoClient.getDatabase("cacu");
-        MongoCollection<Document> collection = database.getCollection("paciente");
-        Document query = new Document("idpaciente",new Document("$elemMatch",new
-                Document("$eq",IdPaciente)));
-        Document update = new Document("$push",Arrays.asList(new Document("paisderesidencia",PaisDeResidencia),
-                new Document("departamentoderesidencia",DepartamentoDeResidencia),
-                new Document("municipioderesidencia",MunicipioDeResidencia), new Document("estadocivil",EstadoCivil),
-                new Document("niveleducativo",NivelEducativo), new Document("regimendesalud",RegimenDeSalud),
-                new Document("eps",Eps)));
-        collection.updateOne(query,update);
+        MongoCollection<Document> collection = database.getCollection("usuario");
+        BasicDBObject query = new BasicDBObject();
+        query.put("id", usuario.getId());
+        FindIterable findIterable = collection.find(query);
+        ArrayList<Document> documents = new ArrayList<Document>();
+        findIterable.into(documents);
+        Document user=new Document();
+        user.put("id",usuario.getId());
+        user.put("paisderesidencia", usuario.getPaisderesidencia());
+        user.put("departamentoderesidencia", usuario.getDepartamentoderesidencia());
+        user.put("municipioderesidencia", usuario.getMunicipioderesidencia());
+        user.put("direccionderesidencia", usuario.getDireccionderesidencia());
+        user.put("estadocivil", usuario.getEstadocivil());
+        user.put("niveleducativo", usuario.getNiveleducativo());
+        user.put("regimendesalud", usuario.getRegimendesalud());
+        user.put("contraseña", usuario.getContraseña());
+
+        for (Document document: documents) {
+            user.put("tipousuario", document.get("tipousuario"));
+            user.put("eps", document.get("eps"));
+            user.put("nombres", document.get("nombres"));
+            user.put("apellidos", document.get("apellidos"));
+            user.put("correo", document.get("correo"));
+            user.put("tdoc",document.get("tdoc"));
+            user.put("ndoc", document.get("ndoc"));
+            user.put("fechadenacimiento", document.get("fechadenacimiento"));
+            user.put("fechaderegistro", document.get("fechaderegistro"));
+            user.put("nacionalidad", document.get("nacionalidad"));
+            user.put("departamentodeorigen", document.get("municipiodeorigen"));
+            user.put("municipiodeorigen", document.get("departamentodeorigen"));
+            user.put("edad",document.get("edad"));
+        }
+        collection.findOneAndReplace(query, user);
     }
 
     public void putHistoriaSexual(int IdPaciente, int NumeroDeCompañeros, int Paridad, int idMetodoPlanificacion) {

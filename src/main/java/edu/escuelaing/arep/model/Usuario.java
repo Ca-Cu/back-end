@@ -75,8 +75,8 @@ public class Usuario {
         this.tipousuario=tipousuario;
     }
 
-    public Usuario(String idpaciente, String tdoc, int ndoc, String nombres, String apellidos, Date fechaderegistro, String nacionalidad, String departamentodeorigen, String municipiodeorigen, String paisderesidencia, String departamentoderesidencia, String municipioderesidencia, String direccionderesidencia, Date fechadenacimiento, int edad, String estadocivil, String niveleducativo, String regimendesalud, String eps, String correo, String tipousuario) {
-        this.id = idpaciente;
+    public Usuario(String id, String tdoc, int ndoc, String nombres, String apellidos, Date fechaderegistro, String nacionalidad, String departamentodeorigen, String municipiodeorigen, String paisderesidencia, String departamentoderesidencia, String municipioderesidencia, String direccionderesidencia, Date fechadenacimiento, int edad, String estadocivil, String niveleducativo, String regimendesalud, String eps, String correo, String tipousuario) {
+        this.id = id;
         this.tdoc = tdoc;
         this.ndoc = ndoc;
         this.nombres = nombres;
@@ -107,11 +107,11 @@ public class Usuario {
         this.tipousuario = tipousuario;
     }
 
-    public String getIdpaciente() {
+    public String getId() {
         return id;
     }
 
-    public void setIdpaciente(String idpaciente) {
+    public void setId(String idpaciente) {
         this.id = idpaciente;
     }
 

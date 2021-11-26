@@ -28,7 +28,6 @@ public class App {
             res.header("Access-Control-Allow-Origin", "*");
         });
 
-
         get("/getCancerDeCuelloUterinoBYIdPaciente", (req, res) -> {
             res.status(200);
             res.type("application/json");
@@ -264,16 +263,22 @@ public class App {
             connection.insertTipoVacunaVPH(tipoVacunaVPH);
             return null;
         });
-        put("/insertTipoPruebaVPH", (req, res) -> {
+        put("/putHistoriaSexual", (req, res) -> {
             res.status(200);
             res.type("application/json");
             connection.putHistoriaSexual(Integer.parseInt(req.params("idPaciente")),Integer.parseInt(req.params("nCompaneros")),Integer.parseInt(req.params("paridad")),Integer.parseInt("idMetodoPlanificacion"));
             return null;
         });
-        put("/insertTipoVacunaVPH", (req, res) -> {
+        post("/putUsuario", (req, res) -> {
+            System.out.println("aca");
             res.status(200);
             res.type("application/json");
-            connection.putPaciente(Integer.parseInt(req.params("idPaciente")), req.params("pais"), req.params("departamento"), req.params("municipio"), req.params("estado"), req.params("educacion"), req.params("salud"), req.params("eps"));
+            GsonBuilder builder = new GsonBuilder();
+            builder.setPrettyPrinting();
+            Gson gson = builder.create();
+            Usuario usuario = gson.fromJson(req.body(),Usuario.class);
+            System.out.println(usuario.toString());
+            connection.putPaciente(usuario);
             return null;
         });
     }
