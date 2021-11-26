@@ -164,7 +164,6 @@ public class DBConnection {
         document.put("idPaciente",prevencionPrimaria.getIdPaciente());
         document.put("idTipo",prevencionPrimaria.getIdTipo());
         document.put("nDosis",prevencionPrimaria.getnDosis());
-        document.put("fechaDosis",prevencionPrimaria.getFechaDosis());
         collection.insertOne(document);
     }
 
@@ -187,6 +186,7 @@ public class DBConnection {
         MongoDatabase database = mongoClient.getDatabase("cacu");
         MongoCollection<Document> collection =database.getCollection("tipovacunavph");
         Document document=new Document();
+        document.put("id",collection.countDocuments()+1);
         document.put("nombre",tipoPrevencionPrimaria.getNombre());
         collection.insertOne(document);
     }
@@ -196,7 +196,7 @@ public class DBConnection {
         MongoDatabase database = mongoClient.getDatabase("cacu");
         MongoCollection<Document> collection =database.getCollection("tipopruebavph");
         Document document=new Document();
-        document.put("id",tipoPruebaVPH.getId());
+        document.put("id",collection.countDocuments()+1);
         document.put("nombre",tipoPruebaVPH.getNombre());
         collection.insertOne(document);
     }
@@ -400,7 +400,7 @@ public class DBConnection {
         PrevencionPrimaria prevencionPrimaria = null;
         findIterable.into(documents);
         for (Document document: documents) {
-            prevencionPrimaria = new PrevencionPrimaria((Integer) document.get("idPaciente"), (Integer) document.get("idTipo"), (Integer) document.get("descripcion"), (Date) document.get("fechaDosis"));
+            prevencionPrimaria = new PrevencionPrimaria((Integer) document.get("idPaciente"), (Integer) document.get("idTipo"), (Integer) document.get("descripcion"));
         }
         return prevencionPrimaria;
     }
@@ -454,7 +454,7 @@ public class DBConnection {
         ArrayList<TipoVacunaVPH> tiposVacunasVPH = new ArrayList<TipoVacunaVPH>();
         findIterable.into(documents);
         for (Document document: documents) {
-            tiposVacunasVPH.add(new TipoVacunaVPH((Integer) document.get("_id"), (String) document.get("nombre")));
+            tiposVacunasVPH.add(new TipoVacunaVPH(Math.toIntExact((Long) document.get("id")), (String) document.get("nombre")));
         }
         return tiposVacunasVPH;
     }
@@ -462,13 +462,13 @@ public class DBConnection {
     public TipoVacunaVPH getTipoVacunaVPHByid(int id) {
         MongoDatabase database = mongoClient.getDatabase("cacu");
         MongoCollection<Document> collection = database.getCollection("tipovacunavph");
-        Document query = new Document("_id",id);
+        Document query = new Document("id",id);
         FindIterable findIterable = collection.find(query);
         ArrayList<Document> documents = new ArrayList<Document>();
         TipoVacunaVPH tipoVacunaVPH = null;
         findIterable.into(documents);
         for (Document document: documents) {
-            tipoVacunaVPH= new TipoVacunaVPH((Integer) document.get("_id"), (String) document.get("nombre"));
+            tipoVacunaVPH= new TipoVacunaVPH((Integer) document.get("id"), (String) document.get("nombre"));
         }
         return tipoVacunaVPH;
     }

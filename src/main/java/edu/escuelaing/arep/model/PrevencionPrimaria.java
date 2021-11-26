@@ -7,13 +7,11 @@ public class PrevencionPrimaria {
     private int idPaciente;
     private int idTipo;
     private int nDosis;
-    private Date fechaDosis;
 
-    public PrevencionPrimaria(int idPaciente, int idTipo, int nDosis, Date fechaDosis) {
+    public PrevencionPrimaria(int idPaciente, int idTipo, int nDosis) {
         this.idPaciente = idPaciente;
         this.idTipo = idTipo;
         this.nDosis = nDosis;
-        this.fechaDosis = fechaDosis;
     }
 
     public int getIdPaciente() {
@@ -40,13 +38,6 @@ public class PrevencionPrimaria {
         this.nDosis = nDosis;
     }
 
-    public Date getFechaDosis() {
-        return fechaDosis;
-    }
-
-    public void setFechaDosis(Date fechaDosis) {
-        this.fechaDosis = fechaDosis;
-    }
 
     @Override
     public String toString() {
@@ -54,7 +45,6 @@ public class PrevencionPrimaria {
                 "idPaciente=" + idPaciente +
                 ", idTipo=" + idTipo +
                 ", nDosis=" + nDosis +
-                ", fechaDosis='" + fechaDosis + '\'' +
                 '}';
     }
 }
