@@ -400,7 +400,7 @@ public class DBConnection {
         PrevencionPrimaria prevencionPrimaria = null;
         findIterable.into(documents);
         for (Document document: documents) {
-            prevencionPrimaria = new PrevencionPrimaria((Integer) document.get("idPaciente"), (Integer) document.get("idTipo"), (Integer) document.get("descripcion"));
+            prevencionPrimaria = new PrevencionPrimaria((String) document.get("idPaciente"), (Integer) document.get("idTipo"), (Integer) document.get("descripcion"));
         }
         return prevencionPrimaria;
     }

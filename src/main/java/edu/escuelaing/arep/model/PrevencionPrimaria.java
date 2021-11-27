@@ -4,21 +4,21 @@ import java.util.Date;
 
 public class PrevencionPrimaria {
 
-    private int idPaciente;
+    private String idPaciente;
     private int idTipo;
     private int nDosis;
 
-    public PrevencionPrimaria(int idPaciente, int idTipo, int nDosis) {
+    public PrevencionPrimaria(String idPaciente, int idTipo, int nDosis) {
         this.idPaciente = idPaciente;
         this.idTipo = idTipo;
         this.nDosis = nDosis;
     }
 
-    public int getIdPaciente() {
+    public String getIdPaciente() {
         return idPaciente;
     }
 
-    public void setIdPaciente(int idPaciente) {
+    public void setIdPaciente(String idPaciente) {
         this.idPaciente = idPaciente;
     }
 
