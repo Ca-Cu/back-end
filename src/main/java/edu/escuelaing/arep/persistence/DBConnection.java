@@ -491,9 +491,10 @@ public class DBConnection {
         user.put("estadocivil", usuario.getEstadocivil());
         user.put("niveleducativo", usuario.getNiveleducativo());
         user.put("regimendesalud", usuario.getRegimendesalud());
-        user.put("contraseña", usuario.getContraseña());
+
 
         for (Document document: documents) {
+            user.put("contraseña", document.get("contraseña"));
             user.put("tipousuario", document.get("tipousuario"));
             user.put("eps", document.get("eps"));
             user.put("nombres", document.get("nombres"));
