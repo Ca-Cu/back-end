@@ -1,0 +1,15 @@
+edu\escuelaing\arep\model\InfoMedico.class
+edu\escuelaing\arep\model\PatologiaPreinvasiva.class
+edu\escuelaing\arep\model\Patologia.class
+edu\escuelaing\arep\App.class
+edu\escuelaing\arep\persistence\DBConnection.class
+edu\escuelaing\arep\model\Usuario.class
+edu\escuelaing\arep\model\HistoriaSexual.class
+edu\escuelaing\arep\model\PrevencionPrimaria.class
+edu\escuelaing\arep\model\TipoVacunaVPH.class
+edu\escuelaing\arep\model\MetodoPlanificacion.class
+edu\escuelaing\arep\model\MetodoTamizacion.class
+edu\escuelaing\arep\model\TipoPruebaVPH.class
+edu\escuelaing\arep\model\CancerDeCuelloUterino.class
+edu\escuelaing\arep\model\PrevencionSecundaria.class
+edu\escuelaing\arep\model\Especialidad.class
