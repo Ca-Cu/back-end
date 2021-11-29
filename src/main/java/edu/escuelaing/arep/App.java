@@ -4,13 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.escuelaing.arep.model.*;
 import edu.escuelaing.arep.persistence.DBConnection;
-import spark.Filter;
-import spark.Request;
-import spark.Response;
-import spark.Spark;
-
-import java.util.HashMap;
-
 import static spark.Spark.*;
 
 public class App {
@@ -140,7 +133,7 @@ public class App {
             connection.insertCancerDeCuelloUterino(cancerDeCuelloUterino);
             return null;
         });
-        post("/insertCancerDeCuelloUterino", (req, res) -> {
+        post("/insertEspecialidad", (req, res) -> {
             res.status(200);
             res.type("application/json");
             GsonBuilder builder = new GsonBuilder();
@@ -287,7 +280,7 @@ public class App {
         if (System.getenv("PORT")!=null){
             return Integer.parseInt(System.getenv("PORT"));
         }
-        return 4567;
+        return 4568;
     }
 
 }
